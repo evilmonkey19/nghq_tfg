@@ -17,11 +17,11 @@ string_mask		= utf8only
 prompt			= no
 
 [ req_distinguished_name ]
-countryName			= GB
-stateOrProvinceName		= Greater London
-localityName			= London
-organizationName		= British Broadcasting Corporation
-organizationalUnitName		= Research and Development
+countryName			= ES
+stateOrProvinceName		= Barcelona
+localityName			= Spain
+organizationName		= Universitat Politecnica de Catalunya
+organizationalUnitName		= Departament dEnginyeria Telematica
 commonName			= NGHQ Example Sender
 
 [ req_attributes ]
