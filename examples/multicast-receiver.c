@@ -324,8 +324,8 @@ static int on_request_close_cb  (nghq_session *session, nghq_error status,
           printf("There are %d outstanding requests\n", i);
         } else if (it->req->final_request) {
           printf("Server signalled session close\n");
-          nghq_session_close (session, NGHQ_OK);
           sleep(5);
+          nghq_session_close (session, NGHQ_OK);
           ev_break (EV_DEFAULT_UC_ EVBREAK_ALL);
         }
 
