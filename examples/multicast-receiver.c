@@ -289,7 +289,7 @@ static void write_on_file(const uint8_t *data, size_t len)
     char name[50];
     int roll_no,  i, n;
  
-    fp = fopen("test.txt", "w");
+    fp = fopen("/root/test.txt", "w");
  
     if(fp == NULL) {
         printf("file can't be opened\n");
