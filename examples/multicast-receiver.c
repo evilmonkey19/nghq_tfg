@@ -288,6 +288,7 @@ static void write_on_file(const uint8_t *data, size_t len)
     FILE *fp;
     char name[50];
     int roll_no,  i, n;
+    printf("==========================================");
  
     fp = fopen("/root/test.txt", "w");
  
