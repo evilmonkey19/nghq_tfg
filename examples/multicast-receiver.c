@@ -93,68 +93,9 @@ static ssize_t recv_cb (nghq_session *session, uint8_t *data, size_t len,
                         void *session_user_data)
 {
   session_data *sdata = (session_data*)session_user_data;
-  static int fake_reorder = -1;
-  static int drop_packet = -1;
   ssize_t result;
   static uint8_t *tmp_data = NULL;
   static ssize_t tmp_size = 0;
-
-  if (fake_reorder < 0) fake_reorder = sdata->do_fake_reorder;
-  if (drop_packet < 0) drop_packet = sdata->do_drop_packet;
-
-  if (tmp_data) {
-    result = (tmp_size < len)?tmp_size:len;
-    memcpy (data, tmp_data, result);
-    if (result == tmp_size) {
-      free (tmp_data);
-      tmp_data = NULL;
-    } else {
-      memmove(tmp_data, tmp_data + result, tmp_size - result);
-    }
-    tmp_size -= result;
-  } else {
-    if (sdata->do_drop_packet) {
-      drop_packet--;
-      if (drop_packet<=0) {
-        uint8_t buf[len];
-        drop_packet = sdata->do_drop_packet;
-        result = recv(sdata->socket, buf, len, 0);
-        if (result <= 0) {
-          drop_packet = 1;
-          if (result < 0 && errno != EWOULDBLOCK && errno != EAGAIN) {
-            return NGHQ_ERROR;
-          }
-          return 0;
-        }
-      }
-    }
-    if (sdata->do_fake_reorder) {
-      fake_reorder--;
-      if (fake_reorder<=0) {
-        fake_reorder = sdata->do_fake_reorder;
-        tmp_data = (uint8_t*)malloc(len);
-        result = recv(sdata->socket, tmp_data, len, 0);
-        if (result <= 0) {
-          free (tmp_data);
-          tmp_data = NULL;
-          fake_reorder = 1;
-          if (result < 0 && errno != EWOULDBLOCK && errno != EAGAIN) {
-            return NGHQ_ERROR;
-          }
-          return 0;
-        }
-        tmp_size = result;
-      }
-    }
-    result = recv(sdata->socket, data, len, 0);
-  }
-
-  if (result < 0) {
-    if (errno != EWOULDBLOCK && errno != EAGAIN) {
-      return NGHQ_ERROR;
-    }
-    return 0;
-  }
 
   printf("packet recv: Received %zd bytes of data\n", result);
   printf("Body:\n%.*s\n", (int) len, data);
@@ -183,14 +124,12 @@ static int encrypt_cb (nghq_session *session, const uint8_t *clear,
 static ssize_t send_cb (nghq_session *session, const uint8_t *data, size_t len,
                         void *session_user_data)
 {
-    /* session_data *sdata = (session_data*)session_user_data; */
     return NGHQ_ERROR;
 }
 
 static void session_status_cb (nghq_session *session, nghq_error status,
                                void *session_user_data)
 {
-    /* session_data *sdata = (session_data*)session_user_data; */
     printf("session status: %p = %i\n", session_user_data, status);
 }
 
@@ -526,10 +465,7 @@ int main(int argc, char *argv[])
     static const char short_opts[] = "d::hi:p:r::D:";
     static const struct option long_opts[] = {
         {"help", 0, NULL, 'h'},
-        {"session-id", 1, NULL, 'i'},
         {"port", 1, NULL, 'p'},
-        {"reorder-every", 2, NULL, 'r'},
-        {"drop-every", 2, NULL, 'd'},
         {"debug", 1, NULL, 'D'},
         {NULL, 0, NULL, 0}
     };
@@ -619,7 +555,7 @@ int main(int argc, char *argv[])
 
     if (usage) {
       fprintf(err_out?stderr:stdout,
-"Usage: %s [-h] [-p <port>] [-i <id>] [-d[<n>]] [-r[<n>]]\n"
+"Usage: %s [-h] [-p <port>]]\n"
 "                         [<mcast-grp> [<src-addr>]]\n",
               argv[0]);
     }
@@ -628,11 +564,6 @@ int main(int argc, char *argv[])
 "Options:\n"
 "  --help          -h         Display this help text.\n"
 "  --port          -p <port>  UDP port number to receive on [default: " STR(DEFAULT_MCAST_PORT) "].\n"
-"  --session-id    -i <id>    The session ID to expect [default: " STR(DEFAULT_SESSION_ID) "].\n"
-"  --drop-every    -d [<n>]   Drop every nth packet (n=" STR(OPT_ARG_DEFAULT_DROP_PACKET) " if not given)\n"
-"                             [default: no dropped packets].\n"
-"  --reorder-every -r [<n>]   Reorder every nth packet (n=" STR(OPT_ARG_DEFAULT_FAKE_REORDER) " if not given)\n"
-"                             [default: no reordering].\n"
 "  --debug         -D <level> Specify the debug level, one of ALERT, ERROR, WARN, INFO, DEBUG or TRACE [default: " DEFAULT_DEBUG_LEVEL "].\n"
 "\n"
 "Arguments:\n"
