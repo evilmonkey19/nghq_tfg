@@ -157,7 +157,6 @@ static ssize_t recv_cb (nghq_session *session, uint8_t *data, size_t len,
   }
 
   printf("packet recv: Received %zd bytes of data\n", result);
-  printf("FBody:\n%.*s\n", (int) len, data);
   return result;
 }
 
@@ -273,22 +272,35 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 {
     push_request *req = (push_request*)request_user_data;
 
-    //printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
+    printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
     if (req->text_body) {
-        //printf("Body:\n%.*s\n", (int) len, data);
+        printf("Body:\n%.*s\n", (int) len, data);
+        write_on_file(len, data);
     } else {
-        //printf("Body is binary, not displaying.\n");
+        printf("Body is binary, not displaying.\n");
     }
 
     return NGHQ_OK;
 }
-/*
+
 static void write_on_file(const uint8_t *data, size_t len)
 {
-  String str = (char*)data;
-  if isItIndex(uint8_t *data, size_t len)
+    FILE *fp;
+    char name[50];
+    int roll_no,  i, n;
+ 
+    fp = fopen("test.txt", "w");
+ 
+    if(fp == NULL) {
+        printf("file can't be opened\n");
+        exit(1);
+    }
+ 
+    fprintf(fp, data);
+ 
+    fclose(fp);
 }
-*/
+
 static int on_push_cancel_cb (nghq_session *session, void *request_user_data)
 {
     printf("Push cancelled\n");
@@ -324,7 +336,6 @@ static int on_request_close_cb  (nghq_session *session, nghq_error status,
           printf("There are %d outstanding requests\n", i);
         } else if (it->req->final_request) {
           printf("Server signalled session close\n");
-          sleep(5);
           nghq_session_close (session, NGHQ_OK);
           ev_break (EV_DEFAULT_UC_ EVBREAK_ALL);
         }
@@ -734,7 +745,7 @@ int main(int argc, char *argv[])
     ev_io_stop (EV_DEFAULT_UC_ &this_session.socket_readable);
     ev_idle_stop (EV_DEFAULT_UC_ &this_session.recv_idle);
 
-    printf("Hola\n");
+
     /* tidy up */
     nghq_session_free (this_session.session);
     setsockopt(this_session.socket, IPPROTO_IP, MCAST_LEAVE_SOURCE_GROUP, &gsr,
