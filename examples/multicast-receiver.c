@@ -274,7 +274,6 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
     push_request *req = (push_request*)request_user_data;
 
     //printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
-    //write_on_file(data, len);
     if (req->text_body) {
         //printf("Body:\n%.*s\n", (int) len, data);
     } else {
@@ -326,6 +325,7 @@ static int on_request_close_cb  (nghq_session *session, nghq_error status,
         } else if (it->req->final_request) {
           printf("Server signalled session close\n");
           nghq_session_close (session, NGHQ_OK);
+          sleep(5);
           ev_break (EV_DEFAULT_UC_ EVBREAK_ALL);
         }
 
