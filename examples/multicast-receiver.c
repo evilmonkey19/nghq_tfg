@@ -36,6 +36,7 @@
 #include <getopt.h>
 #include <netdb.h>
 #include <time.h>
+#include <string.h>
 
 #include <ev.h>
 
@@ -154,7 +155,9 @@ static ssize_t recv_cb (nghq_session *session, uint8_t *data, size_t len,
     }
     return 0;
   }
+
   printf("packet recv: Received %zd bytes of data\n", result);
+  printf("Body:\n%.*s\n", (int) len, data);
   return result;
 }
 
@@ -270,17 +273,23 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 {
     push_request *req = (push_request*)request_user_data;
 
-    printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
-    printf("Pene\n");
+    //printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
+    write_on_file(data, len);
     if (req->text_body) {
-        printf("Body:\n%.*s\n", (int) len, data);
+        //printf("Body:\n%.*s\n", (int) len, data);
     } else {
-        printf("Body is binary, not displaying.\n");
+        //printf("Body is binary, not displaying.\n");
     }
 
     return NGHQ_OK;
 }
-
+/*
+static void write_on_file(const uint8_t *data, size_t len)
+{
+  String str = (char*)data;
+  if isItIndex(uint8_t *data, size_t len)
+}
+*/
 static int on_push_cancel_cb (nghq_session *session, void *request_user_data)
 {
     printf("Push cancelled\n");
