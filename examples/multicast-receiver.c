@@ -280,11 +280,6 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
         printf("Body is binary, not displaying.\n");
     }
 
-    return NGHQ_OK;
-}
-
-static void write_on_file(const uint8_t *data, size_t len)
-{
     FILE *fp;
     char name[50];
     int roll_no,  i, n;
@@ -300,6 +295,8 @@ static void write_on_file(const uint8_t *data, size_t len)
     fprintf(fp, data);
  
     fclose(fp);
+
+    return NGHQ_OK;
 }
 
 static int on_push_cancel_cb (nghq_session *session, void *request_user_data)
