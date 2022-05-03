@@ -284,7 +284,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
     int roll_no,  i, n;
     printf("==========================================");
  
-    fp = fopen("/root/test.txt", "w");
+    fp = fopen("/root/test.txt", "a");
  
     if(fp == NULL) {
         printf("file can't be opened\n");
