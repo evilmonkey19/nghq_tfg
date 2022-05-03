@@ -274,7 +274,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
     push_request *req = (push_request*)request_user_data;
 
     //printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
-    write_on_file(data, len);
+    //write_on_file(data, len);
     if (req->text_body) {
         //printf("Body:\n%.*s\n", (int) len, data);
     } else {
