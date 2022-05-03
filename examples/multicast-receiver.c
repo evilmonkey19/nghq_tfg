@@ -734,6 +734,7 @@ int main(int argc, char *argv[])
     ev_io_stop (EV_DEFAULT_UC_ &this_session.socket_readable);
     ev_idle_stop (EV_DEFAULT_UC_ &this_session.recv_idle);
 
+    printf("Hola");
     /* tidy up */
     nghq_session_free (this_session.session);
     setsockopt(this_session.socket, IPPROTO_IP, MCAST_LEAVE_SOURCE_GROUP, &gsr,
