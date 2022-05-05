@@ -37,6 +37,7 @@
 #include <netdb.h>
 #include <time.h>
 #include <string.h>
+#include <inttypes.h>
 
 #include <ev.h>
 
@@ -290,7 +291,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
         fprintf(fp,"%.*s", (int)len, data);
     } else {
         //printf("Body is binary, not displaying.\n");
-        fprintf(fp, "%.*u", (int)len, data);
+        fprintf(fp, "%u", (int)len, data);
     }
  
     fclose(fp);
