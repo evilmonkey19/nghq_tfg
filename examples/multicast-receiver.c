@@ -291,7 +291,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
         fprintf(fp,"%.*s", (int)len, data);
     } else {
         //printf("Body is binary, not displaying.\n");
-        fprintf(fp, "%" PRIu8, (int)len, data);
+        fprintf(fp, "%.*" PRIu8, (int)len, data);
     }
  
     fclose(fp);
