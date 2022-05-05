@@ -272,12 +272,6 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 {
     push_request *req = (push_request*)request_user_data;
 
-    printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
-    if (req->text_body) {
-        //printf("Body:\n%.*s\n", (int) len, data);
-    } else {
-        //printf("Body is binary, not displaying.\n");
-    }
     FILE *fp;
     char name[50];
     int roll_no,  i, n;
@@ -288,8 +282,16 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
       printf("file can't be opened\n");
       exit(1);
     }
- 
-    fprintf(fp,"%.*s", (int)len, data);
+
+
+    printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
+    if (req->text_body) {
+        //printf("Body:\n%.*s\n", (int) len, data);
+        fprintf(fp,"%.*s", (int)len, data);
+    } else {
+        //printf("Body is binary, not displaying.\n");
+        fprintf(fp, "%.*u", (int)len, data);
+    }
  
     fclose(fp);
     return NGHQ_OK;
