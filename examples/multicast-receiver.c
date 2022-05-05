@@ -274,9 +274,9 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 
     printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
     if (req->text_body) {
-        printf("Body:\n%.*s\n", (int) len, data);
+        //printf("Body:\n%.*s\n", (int) len, data);
     } else {
-        printf("Body is binary, not displaying.\n");
+        //printf("Body is binary, not displaying.\n");
     }
     FILE *fp;
     char name[50];
