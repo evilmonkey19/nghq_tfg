@@ -293,7 +293,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
         exit(1);
       }
         //printf("Body is binary, not displaying.\n");
-        fprintf(fp, "%.*u", (int) len, data);
+        fwrite(data, (int) len, 1, fp);
     }
  
     fclose(fp);
