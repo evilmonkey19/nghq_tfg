@@ -49,6 +49,7 @@ static uint8_t _default_session_id[] = {
 };
 
 char filepath[50] = "/root/";
+bool filename_ok = false;
 
 #define _STR(a) #a
 #define STR(a) _STR(a)
@@ -245,17 +246,19 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     static const char connection_field[] = "connection";
     static const char connection_close_value[] = "close";
 
-    if(req->headers_incoming==HEADERS_REQUEST)
-    {
-      if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
-      {  
-        // Get the name of the file that will be the first part of the endpoint before "/"
-        char *filename = malloc(sizeof(hdr->value));
-        memcpy(filename, hdr->value, sizeof(filename));
-        memmove(filename, filename+1, strlen(filename));
-        filename = strsep(&filename, "/");
-        strcat(filepath, filename);
-        printf("%s", filepath);
+    if(filename_ok){
+      if(req->headers_incoming==HEADERS_REQUEST)
+      {
+        if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
+        {  
+          // Get the name of the file that will be the first part of the endpoint before "/"
+          char *filename = malloc(sizeof(hdr->value));
+          memcpy(filename, hdr->value, sizeof(filename));
+          memmove(filename, filename+1, strlen(filename));
+          filename = strsep(&filename, "/");
+          strcat(filepath, filename);
+          filename_ok = true;
+        }
       }
     }
 
