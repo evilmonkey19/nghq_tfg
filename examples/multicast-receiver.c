@@ -48,6 +48,8 @@ static uint8_t _default_session_id[] = {
     0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x49, 0x44 /* "Session ID" */
 };
 
+char * filename = "";
+
 #define _STR(a) #a
 #define STR(a) _STR(a)
 #define DEFAULT_MCAST_GRP_V4      "232.0.0.1"
@@ -242,6 +244,13 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     static const char content_type_text[] = "text/";
     static const char connection_field[] = "connection";
     static const char connection_close_value[] = "close";
+
+    if(req->headers_incoming==HEADERS_REQUEST && strstr(hdr->name, ":path"))
+    {  
+      // Get the name of the file that will be the first part of the endpoint before "/"
+      filename = filename +1;
+      filename = strsep(&(filename), "/");
+    }
 
     printf("%c> %.*s: %.*s\n",
            ((req->headers_incoming==HEADERS_REQUEST)?'P':'H'),
