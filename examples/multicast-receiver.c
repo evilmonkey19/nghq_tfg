@@ -290,7 +290,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 
     if (req->text_body) {
         //printf("Body:\n%.*s\n", (int) len, data);
-      fp = fopen("/root/test.txt", "a");
+      fp = fopen(strcat("/root/", filename), "a");
       if(fp == NULL) {
         printf("file can't be opened\n");
         exit(1);
@@ -298,7 +298,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
       fprintf(fp,"%.*s", (int)len, data);
       
     } else {
-      fp = fopen("/root/test.txt", "ab");
+      fp = fopen(strcat("/root/", filename), "ab");
       if(fp == NULL) {
         printf("file can't be opened\n");
         exit(1);
