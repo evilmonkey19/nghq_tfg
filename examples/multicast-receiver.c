@@ -313,7 +313,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
       fp = fopen(filepath, "ab");
       if(fp == NULL) {
         printf("file can't be opened\n");
-        print("%s", filepath);
+        printf("%s", filepath);
         exit(1);
       }
         //printf("Body is binary, not displaying.\n");
