@@ -254,7 +254,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
         memcpy(filename, hdr->value, sizeof(filename));
         memmove(filename, filename+1, strlen(filename));
         filename = strsep(&filename, "/");
-        strcat(*filepath, *filename);
+        strcat(filepath, (char*)filename);
         printf("%s", filepath);
       }
     }
