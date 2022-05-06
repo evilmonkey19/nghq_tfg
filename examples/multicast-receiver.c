@@ -48,7 +48,6 @@ static uint8_t _default_session_id[] = {
     0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x49, 0x44 /* "Session ID" */
 };
 
-char * filename = "";
 char * filepath = "/root/";
 
 #define _STR(a) #a
@@ -251,7 +250,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
       if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
       {  
         // Get the name of the file that will be the first part of the endpoint before "/"
-        filename = hdr->name +1;
+        char *filename = hdr->name +1;
         filename = strsep(&filename, "/");
         printf("%s", filename);
         strcat(filepath, filename);
