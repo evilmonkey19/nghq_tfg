@@ -246,13 +246,17 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     static const char connection_field[] = "connection";
     static const char connection_close_value[] = "close";
 
-    if(req->headers_incoming==HEADERS_REQUEST && strcmp(hdr->name, ":path") == 0)
-    {  
-      // Get the name of the file that will be the first part of the endpoint before "/"
-      printf("Hello");
-      filename = filename +1;
-      filename = strsep(&(filename), "/");
-      printf("%s", strcat(filepath, filename));
+    if(req->headers_incoming==HEADERS_REQUEST)
+    {
+      printf("HELLO1");
+      if (strcmp(hdr->name, ":path") == 0)
+      {  
+        // Get the name of the file that will be the first part of the endpoint before "/"
+        printf("Hello");
+        filename = filename +1;
+        filename = strsep(&(filename), "/");
+        printf("%s", strcat(filepath, filename));
+      }
     }
 
     printf("%c> %.*s: %.*s\n",
