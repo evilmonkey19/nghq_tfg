@@ -246,7 +246,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     static const char connection_field[] = "connection";
     static const char connection_close_value[] = "close";
 
-    if(filename_ok){
+    if(!filename_ok){
       if(req->headers_incoming==HEADERS_REQUEST)
       {
         if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
