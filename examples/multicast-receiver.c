@@ -252,7 +252,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
         if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
         {  
           // Get the name of the file that will be the first part of the endpoint before "/"
-          char *filename = malloc(sizeof(hdr->value));
+          char *filename = malloc(sizeof(hdr->value)+20);
           memcpy(filename, hdr->value, sizeof(filename));
           memmove(filename, filename+1, strlen(filename));
           filename = strsep(&filename, "/");
