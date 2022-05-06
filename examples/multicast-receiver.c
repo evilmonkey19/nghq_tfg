@@ -255,7 +255,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
         filename = strsep(&(filename), "/");
         strcat(filepath, filename);
         sleep(10);
-        printf("%s", filepath);
+        printf("%.*s", filepath);
       }
     }
 
