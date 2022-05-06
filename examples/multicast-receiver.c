@@ -246,7 +246,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     static const char connection_field[] = "connection";
     static const char connection_close_value[] = "close";
 
-    if(req->headers_incoming==HEADERS_REQUEST && strstr(hdr->name, ":path"))
+    if(req->headers_incoming==HEADERS_REQUEST && strcmp(hdr->name, ":path") == 0)
     {  
       // Get the name of the file that will be the first part of the endpoint before "/"
       printf("Hello");
