@@ -249,9 +249,10 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     if(req->headers_incoming==HEADERS_REQUEST && strstr(hdr->name, ":path"))
     {  
       // Get the name of the file that will be the first part of the endpoint before "/"
+      printf("Hello");
       filename = filename +1;
       filename = strsep(&(filename), "/");
-      strcat(filepath, filename);
+      printf("%s", strcat(filepath, filename));
     }
 
     printf("%c> %.*s: %.*s\n",
