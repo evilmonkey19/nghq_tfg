@@ -48,7 +48,7 @@ static uint8_t _default_session_id[] = {
     0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x49, 0x44 /* "Session ID" */
 };
 
-char * filepath = "/root/";
+char* filepath = "/root/";
 
 #define _STR(a) #a
 #define STR(a) _STR(a)
