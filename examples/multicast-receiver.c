@@ -49,6 +49,7 @@ static uint8_t _default_session_id[] = {
 };
 
 char * filename = "";
+char * filepath = "/root/";
 
 #define _STR(a) #a
 #define STR(a) _STR(a)
@@ -250,6 +251,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
       // Get the name of the file that will be the first part of the endpoint before "/"
       filename = filename +1;
       filename = strsep(&(filename), "/");
+      strcat(filepath, filename);
     }
 
     printf("%c> %.*s: %.*s\n",
@@ -288,10 +290,10 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
     printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
     //printf("%.*s", &req->headers_incoming);
 
-    printf("%.*s\n", strcat("FILENAME:", filename));
     if (req->text_body) {
         //printf("Body:\n%.*s\n", (int) len, data);
-      fp = fopen(strcat("/root/", filename), "a");
+
+      fp = fopen(filepath, "a");
       if(fp == NULL) {
         printf("file can't be opened\n");
         exit(1);
@@ -299,7 +301,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
       fprintf(fp,"%.*s", (int)len, data);
       
     } else {
-      fp = fopen(strcat("/root/", filename), "ab");
+      fp = fopen(filepath, "ab");
       if(fp == NULL) {
         printf("file can't be opened\n");
         exit(1);
