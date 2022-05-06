@@ -257,7 +257,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
           memmove(filename, filename+1, strlen(filename));
           filename = strsep(&filename, "/");
           strcat(filepath, filename);
-          printf("%s", filepath);
+          printf("FILEPATH: %s\n", filepath);
           filename_ok = true;
         }
       }
