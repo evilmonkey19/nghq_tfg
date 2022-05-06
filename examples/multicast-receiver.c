@@ -288,6 +288,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
     printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
     //printf("%.*s", &req->headers_incoming);
 
+    printf(strcat("FILENAME:", filename));
     if (req->text_body) {
         //printf("Body:\n%.*s\n", (int) len, data);
       fp = fopen(strcat("/root/", filename), "a");
