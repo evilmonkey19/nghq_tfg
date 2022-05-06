@@ -249,7 +249,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
     if(req->headers_incoming==HEADERS_REQUEST)
     {
       printf("HELLO1");
-      if (strcmp(hdr->name, ":path") == 0)
+      if (strcmp((const char*)hdr->name, ":path") == 0)
       {  
         // Get the name of the file that will be the first part of the endpoint before "/"
         printf("Hello");
