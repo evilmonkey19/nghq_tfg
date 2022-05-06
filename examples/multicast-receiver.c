@@ -253,7 +253,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
         char *filename = malloc(sizeof(hdr->value));
         memcpy(filename, hdr->value, sizeof(filename));
         memmove(filename, filename+1, strlen(filename));
-        filename = strsep(&filename, "/");
+        *filename = strsep(&filename, "/");
         filepath = strcat(filepath, filename);
         printf("%s", filepath);
       }
