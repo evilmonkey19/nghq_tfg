@@ -48,7 +48,7 @@ static uint8_t _default_session_id[] = {
     0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x49, 0x44 /* "Session ID" */
 };
 
-char* filepath = "/root/";
+char filepath[50] = "/root/";
 
 #define _STR(a) #a
 #define STR(a) _STR(a)
@@ -253,7 +253,7 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
         char *filename = malloc(sizeof(hdr->value));
         memcpy(filename, hdr->value, sizeof(filename));
         memmove(filename, filename+1, strlen(filename));
-        *filename = strsep(&filename, "/");
+        filename = strsep(&filename, "/");
         filepath = strcat(filepath, filename);
         printf("%s", filepath);
       }
