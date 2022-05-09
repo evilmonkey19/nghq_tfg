@@ -48,7 +48,7 @@ static uint8_t _default_session_id[] = {
     0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x20, 0x49, 0x44 /* "Session ID" */
 };
 
-char filepath[50] = "/home/telematic/Desktop/TFG/HOST/mcast_received/";
+char filepath[100] = "/home/telematic/Desktop/TFG/HOST/mcast_received/";
 bool filename_ok = false;
 
 #define _STR(a) #a
@@ -252,8 +252,8 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
         if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
         {  
           // Get the name of the file that will be the first part of the endpoint before "/"
-          char *filename = malloc(sizeof(hdr->value)+20);
-          memcpy(filename, hdr->value, sizeof(filename)+20);
+          char *filename = malloc(sizeof(hdr->value)+100);
+          memcpy(filename, hdr->value, sizeof(filename)+100);
           memmove(filename, filename+1, strlen(filename));
           filename = strsep(&filename, "/");
           strcat(filepath, filename);
