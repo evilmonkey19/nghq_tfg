@@ -320,7 +320,7 @@ static void _send_file(const char *filename, size_t filename_skip_chars,
     /* open file to send */
     fd = open(filename, O_RDONLY);
     if (fd < 0) {
-      printf("Unable to open '%s' for reading, skipping...\n", filename);
+      //printf("Unable to open '%s' for reading, skipping...\n", filename);
       return;
     }
     file_size = lseek(fd, 0, SEEK_END);
@@ -386,9 +386,9 @@ static void _send_file(const char *filename, size_t filename_skip_chars,
     promise_request_user_data++;
 
     /* Make the push promise */
-    printf("Submitting Push Promise with headers:\n");
+    //("Submitting Push Promise with headers:\n");
     for (i = 0; i < sizeof(g_request_hdrs)/sizeof(g_request_hdrs[0]); i++) {
-      printf("\t%s: %s\n", g_request_hdrs[i]->name, g_request_hdrs[i]->value);
+      //printf("\t%s: %s\n", g_request_hdrs[i]->name, g_request_hdrs[i]->value);
     }
     result = nghq_submit_push_promise (g_server_session.session, NULL,
                      g_request_hdrs,
@@ -440,7 +440,7 @@ static void _send_file(const char *filename, size_t filename_skip_chars,
         }
     }
 
-    printf("Payload for server push:\n");
+    //printf("Payload for server push:\n");
     size_t sent_bytes = 0;
     while (fd >= 0) {
         static unsigned char read_buffer[MAX_PAYLOAD_LEN];
@@ -461,7 +461,7 @@ static void _send_file(const char *filename, size_t filename_skip_chars,
                                               (void*)promise_request_user_data);
                     ev_idle_start(EV_DEFAULT_UC_ &g_server_session.send_idle);
                     ev_run(EV_DEFAULT_UC_ EVRUN_ONCE);
-                    printf("_send_file: result = %i\n", result);
+                    //printf("_send_file: result = %i\n", result);
                 } while (result == NGHQ_REQUEST_BLOCKED);
                 if (result == NGHQ_REQUEST_CLOSED) {
                     res = 0;
@@ -668,20 +668,20 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
                             const uint8_t *data, size_t len, size_t off,
                             void *request_user_data)
 {
-    printf("Received %zu bytes\n", len);
+    //printf("Received %zu bytes\n", len);
     return NGHQ_OK;
 }
 
 static int on_push_cancel_cb (nghq_session *session, void *request_user_data)
 {
-    printf("Push cancelled\n");
+    //printf("Push cancelled\n");
     return NGHQ_OK;
 }
 
 static int on_request_close_cb  (nghq_session *session, nghq_error status,
                                  void *request_user_data)
 {
-    printf("Request finished\n");
+    //printf("Request finished\n");
     return NGHQ_OK;
 }
 
@@ -790,7 +790,7 @@ static void recv_idle_cb (EV_P_ ev_idle *w, int revents)
     ev_idle_stop(EV_A_ w);
 
     rv = nghq_session_recv (sdata->session);
-    printf("recv_idle_cb: nghq_session_recv returned %i\n", rv);
+    //printf("recv_idle_cb: nghq_session_recv returned %i\n", rv);
 
     if (rv == NGHQ_OK) {
         /* not finished yet, continue receiving */

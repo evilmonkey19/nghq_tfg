@@ -160,7 +160,7 @@ static ssize_t recv_cb (nghq_session *session, uint8_t *data, size_t len,
     return 0;
   }
 
-  printf("packet recv: Received %zd bytes of data\n", result);
+  //printf("packet recv: Received %zd bytes of data\n", result);
   return result;
 }
 
@@ -194,7 +194,7 @@ static void session_status_cb (nghq_session *session, nghq_error status,
                                void *session_user_data)
 {
     /* session_data *sdata = (session_data*)session_user_data; */
-    printf("session status: %p = %i\n", session_user_data, status);
+    //printf("session status: %p = %i\n", session_user_data, status);
 }
 
 static int recv_control_data_cb (nghq_session *session, const uint8_t *buf,
@@ -251,6 +251,9 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
       {
         if (strncasecmp((const char*)hdr->name, (const char*)":path", 6) == 0)
         {  
+          printf("%c> %.*s: %.*s\n",
+           ((req->headers_incoming==HEADERS_REQUEST)?'P':'H'),
+           (int) hdr->name_len, hdr->name, (int) hdr->value_len, hdr->value);
           // Get the name of the file that will be the first part of the endpoint before "/"
           char *filename = malloc(sizeof(hdr->value)+100);
           memcpy(filename, hdr->value, sizeof(filename)+100);
@@ -263,9 +266,9 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
       }
     }
 
-    printf("%c> %.*s: %.*s\n",
-           ((req->headers_incoming==HEADERS_REQUEST)?'P':'H'),
-           (int) hdr->name_len, hdr->name, (int) hdr->value_len, hdr->value);
+    //printf("%c> %.*s: %.*s\n",
+    //     ((req->headers_incoming==HEADERS_REQUEST)?'P':'H'),
+    //     (int) hdr->name_len, hdr->name, (int) hdr->value_len, hdr->value);
 
     if (req->headers_incoming!=HEADERS_REQUEST &&
         hdr->name_len == sizeof(content_type_field)-1 &&
@@ -296,7 +299,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
     FILE *fp;
 
 
-    printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
+    //printf("Received %zu bytes of body data (offset=%zu).\n", len, off);
     //printf("%.*s", &req->headers_incoming);
 
     if (req->text_body) {
@@ -327,7 +330,7 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 
 static int on_push_cancel_cb (nghq_session *session, void *request_user_data)
 {
-    printf("Push cancelled\n");
+    //printf("Push cancelled\n");
     return NGHQ_OK;
 }
 
@@ -357,9 +360,9 @@ static int on_request_close_cb  (nghq_session *session, nghq_error status,
             it = it->next;
             i++;
           }
-          printf("There are %d outstanding requests\n", i);
+          //printf("There are %d outstanding requests\n", i);
         } else if (it->req->final_request) {
-          printf("Server signalled session close\n");
+          //printf("Server signalled session close\n");
           nghq_session_close (session, NGHQ_OK);
           ev_break (EV_DEFAULT_UC_ EVBREAK_ALL);
         }
@@ -371,7 +374,7 @@ static int on_request_close_cb  (nghq_session *session, nghq_error status,
         it = it->next;
       }
     }
-    printf("Request finished\n");
+    //printf("Request finished\n");
     return NGHQ_OK;
 }
 
