@@ -492,7 +492,7 @@ static void recv_idle_cb (EV_P_ ev_idle *w, int revents)
     int rv;
 
     ev_idle_stop (EV_A_ w);
-    printf("Data waiting on socket, calling nghq_session_recv\n");
+    //printf("Data waiting on socket, calling nghq_session_recv\n");
 
     do {
         rv = nghq_session_recv (data->session);
