@@ -501,7 +501,7 @@ static void recv_idle_cb (EV_P_ ev_idle *w, int revents)
     if (rv != NGHQ_NO_MORE_DATA) {
       fprintf(stderr, "nghq_session_recv failed with %d\n", rv);
     } else {
-      fprintf(stderr, "Waiting for new packet data.\n");
+      //fprintf(stderr, "Waiting for new packet data.\n");
     }
 
     ev_io_start (EV_A_ &data->socket_readable);
