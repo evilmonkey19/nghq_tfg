@@ -261,6 +261,11 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
           filename = strsep(&filename, "/");
           strcat(filepath, filename);
           //printf("FILEPATH: %s\n", filepath);
+          if (strcmp(filename, "stream.m3u8")){
+            FILE *fp;
+            fp = fopen(filepath, "w");
+            fclose(fp);
+          }
           filename_ok = true;
         }
       }
@@ -304,7 +309,6 @@ static int on_data_recv_cb (nghq_session *session, uint8_t flags,
 
     if (req->text_body) {
         //printf("Body:\n%.*s\n", (int) len, data);
-
       fp = fopen(filepath, "a");
       if(fp == NULL) {
         printf("file can't be opened\n");
