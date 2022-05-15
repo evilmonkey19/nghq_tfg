@@ -262,9 +262,8 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
           strcat(filepath, filename);
           //printf("FILEPATH: %s\n", filepath);
           if (strcmp(filename, "stream.m3u8")){
-            FILE *fp;
-            fp = fopen(filepath, "w");
-            fclose(fp);
+            printf("HOLA");
+            remove(filepath);
           }
           filename_ok = true;
         }
