@@ -262,7 +262,6 @@ static int on_headers_cb (nghq_session *session, uint8_t flags,
           strcat(filepath, filename);
           //printf("FILEPATH: %s\n", filepath);
           if (strcmp(filepath, "/root/client/mcast_received/stream.m3u8") == 0){
-            printf("HOLA");
             remove(filepath);
           }
           filename_ok = true;
